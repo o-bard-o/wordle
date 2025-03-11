@@ -52,7 +52,10 @@ const useGuess = (
         toast("You won!", {
           action: {
             label: "RETRY",
-            onClick: () => window.location.reload(),
+            onClick: () => {
+              localStorage.removeItem("targetWord");
+              window.location.reload();
+            },
           },
         });
       }
