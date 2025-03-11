@@ -1,3 +1,4 @@
+import { Key, Variant } from "@/types";
 import KeyButton from "./KeyButton";
 
 const _layout = [
@@ -6,22 +7,20 @@ const _layout = [
   ["⏎", "Z", "X", "C", "V", "B", "N", "M", "⌫"],
 ];
 
-export type Key = {
-  id?: number;
-  char: string;
-  variant: "default" | "presence" | "absence" | "correct";
-  size?: "lg" | "xl";
-};
-
 const layout: Key[][] = _layout.map((row, i) => {
   return row.map((char, j) => ({ char, variant: "default", id: i * 10 + j }));
 });
 
+/**
+ * @param letterState - the state of the letters in the word
+ * @param enterKey - the function to call when a key is pressed
+ * @returns a layout of the keyboard
+ */
 const KeyLayout = ({
   letterState,
   enterKey,
 }: {
-  letterState: Record<string, "default" | "correct" | "presence" | "absence">;
+  letterState: Record<string, Variant>;
   enterKey: (char: string) => void;
 }) => {
   const handleClick = (char: string) => {

@@ -1,14 +1,14 @@
-import { Key } from "@/components/keyboard/KeyLayout";
 import words from "@/lib/words.json";
+import { Key, Variant } from "@/types";
 import { useState } from "react";
 import { toast } from "sonner";
 
-const useGuess = (
-  updateVariant: (
-    char: string,
-    variant: "default" | "correct" | "presence" | "absence"
-  ) => void
-) => {
+/**
+ *
+ * @param updateVariant - the function to update the variant of the letter
+ * @returns a hook that manages the state of the guessed word
+ */
+const useGuess = (updateVariant: (char: string, variant: Variant) => void) => {
   const _guessLayout: string[][] = Array.from({ length: 6 }, () =>
     Array(5).fill("")
   );
@@ -25,6 +25,11 @@ const useGuess = (
 
   const targetWord = "SHOTS";
 
+  /**
+   *
+   * @param row - the row to validate
+   * @returns the new layout with the correct, presence, and absence variants
+   */
   const validateWord = (row: number) => {
     setGuessLayout((prev) => {
       const newLayout = prev.map((r) => [...r]);
@@ -45,6 +50,11 @@ const useGuess = (
     });
   };
 
+  /**
+   *
+   * @param char - the key pressed
+   * @returns the new coordinates of the cursor
+   */
   const enterKey = (char: string) => {
     setCoord((prevCoord) => {
       const [row, col] = prevCoord;
@@ -65,6 +75,15 @@ const useGuess = (
             return [row, col];
           }
           validateWord(row);
+          if (row === 5) {
+            toast("Retry?", {
+              action: {
+                label: "GO",
+                onClick: () => window.location.reload(),
+              },
+            });
+            return [row, col];
+          }
           return [row + 1, 0];
         } else {
           toast("Please fill the word completely");

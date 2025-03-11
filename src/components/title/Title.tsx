@@ -2,6 +2,10 @@ import WordleBlack from "@/assets/Wordle-black.png";
 import WordleWhite from "@/assets/Wordle-white.png";
 import { useEffect, useState } from "react";
 
+/**
+ *
+ * @returns the Wordle title image
+ */
 const Title = () => {
   const [isDarkMode, setIsDarkMode] = useState(
     window.matchMedia &&

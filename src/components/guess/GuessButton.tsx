@@ -4,10 +4,6 @@ import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { guessVariants } from "../ui/variants";
 
-/**
- * @param char - the key to display on the button
- * @returns a button with the given key that calls the given function when clicked
- */
 const GuessDiv = ({
   char,
   variant,
@@ -15,6 +11,11 @@ const GuessDiv = ({
   VariantProps<typeof guessVariants> & {
     char: string;
   }) => {
+  /**
+   * @param char - the key to display on the button
+   * @param variant - the variant of the button
+   * @returns a button with the given key that calls the given function when clicked
+   */
   const [flipped, setFlipped] = useState(false);
 
   useEffect(() => {

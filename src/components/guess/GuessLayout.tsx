@@ -1,8 +1,13 @@
+import { Key } from "@/types";
 import { useLayoutEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { Key } from "../keyboard/KeyLayout";
 import GuessDiv from "./GuessButton";
 
+/**
+ *
+ * @param guessLayout - the layout of the guessed word
+ * @returns a layout of the guessed word
+ */
 const GuessLayout = ({ guessLayout }: { guessLayout: Key[][] }) => {
   const [keys, setKeys] = useState([] as string[]);
 
