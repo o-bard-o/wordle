@@ -8,7 +8,10 @@ import { toast } from "sonner";
  * @param updateVariant - the function to update the variant of the letter
  * @returns a hook that manages the state of the guessed word
  */
-const useGuess = (updateVariant: (char: string, variant: Variant) => void) => {
+const useGuess = (
+  updateVariant: (char: string, variant: Variant) => void,
+  targetWord: string
+) => {
   const _guessLayout: string[][] = Array.from({ length: 6 }, () =>
     Array(5).fill("")
   );
@@ -22,8 +25,6 @@ const useGuess = (updateVariant: (char: string, variant: Variant) => void) => {
 
   const [guessLayout, setGuessLayout] = useState<Key[][]>(initialLayout);
   const [, setCoord] = useState<[number, number]>([0, 0]);
-
-  const targetWord = "SHOTS";
 
   /**
    *
@@ -45,6 +46,15 @@ const useGuess = (updateVariant: (char: string, variant: Variant) => void) => {
           newLayout[row][i].variant = "absence";
         }
         updateVariant(letter, newLayout[row][i].variant);
+      }
+
+      if (targetWord === guessLayout[row].map((r) => r.char).join("")) {
+        toast("You won!", {
+          action: {
+            label: "RETRY",
+            onClick: () => window.location.reload(),
+          },
+        });
       }
       return newLayout;
     });
@@ -76,9 +86,9 @@ const useGuess = (updateVariant: (char: string, variant: Variant) => void) => {
           }
           validateWord(row);
           if (row === 5) {
-            toast("Retry?", {
+            toast("You lose!", {
               action: {
-                label: "GO",
+                label: "RETRY",
                 onClick: () => window.location.reload(),
               },
             });

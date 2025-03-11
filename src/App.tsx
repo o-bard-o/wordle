@@ -1,3 +1,4 @@
+import words from "@/lib/words.json";
 import { useEffect } from "react";
 import GuessLayout from "./components/guess/GuessLayout";
 import KeyLayout from "./components/keyboard/KeyLayout";
@@ -11,8 +12,13 @@ import useLetterState from "./hooks/useLetterState";
  * The main component of the game
  */
 const App = () => {
+  const targetWord =
+    localStorage.getItem("targetWord") ??
+    words[Math.floor(Math.random() * words.length)].toUpperCase();
+  localStorage.setItem("targetWord", targetWord);
+
   const { letterState, updateLetter } = useLetterState();
-  const { guessLayout, enterKey } = useGuess(updateLetter);
+  const { guessLayout, enterKey } = useGuess(updateLetter, targetWord);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -29,8 +35,10 @@ const App = () => {
     window.addEventListener("keydown", handleKeyDown);
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
+      localStorage.removeItem("targetWord");
     };
   }, []);
+
   return (
     <>
       <SplashDialog />
