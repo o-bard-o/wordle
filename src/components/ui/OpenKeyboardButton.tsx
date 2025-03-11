@@ -15,6 +15,7 @@ const KeyboardButton = () => {
       <input
         ref={inputRef}
         type="text"
+        autoCapitalize="characters"
         className="absolute opacity-0 w-0 h-0"
       />
 
